@@ -1,0 +1,84 @@
+<div class="row clearfix">
+    <div class="col-md-12 column">
+        <form name="form_value" method="POST" id="form_value">
+            <fieldset class="fieldset">
+                <legend class="legend"><span>Test Form For Crud Example Module <a href="<?php echo $block->getBaseUrl().'crudexample/form/list'; ?>">(Visit List Page)</a></span></legend><br>
+                <div class="field note no-label">Write here anything you want.</div>
+                
+                <div class="field date">
+                    <label class="label" for="date"><span><?php echo __('DOB') ?></span></label>
+                    <div class="control">
+                        <input name="date" id="image" title="DOB" value="" class="input-text" type="date">
+                    </div>
+                </div>
+                <div class="field result">
+                    <label class="label" for="result"><span><?php echo __('Result') ?></span></label>
+                    <div class="control">
+                        <div class="result" style="display:none"></div>
+                    </div>
+                </div>
+                <div class="field country">
+                    <label class="label" for="result"><span><?php echo __('Country') ?></span></label>
+                    <div class="control">
+                        <select id="country">
+                            <option value="option1">Option 1</option>
+                            <option value="option2">Option 2</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="field city">
+                    <label class="label" for="result"><span><?php echo __('City') ?></span></label>
+                    <div class="control">
+                        <select id="city">
+                            <!-- City options will be loaded dynamically -->
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <button type="submit" title="Submit" class="action submit primary">
+                        <span>Submit</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+require(['jquery'],function(){
+    jQuery(document).ready(function() {
+        jQuery(".result").hide();
+        jQuery("#form_value").submit(function(){
+            
+            var dob = jQuery("input[name='date']").val();
+            var selectedCountry = jQuery("#country").val();
+
+            var url = "<?php echo $block->getBaseUrl().'ajaxcrud/result/result/' ?>";
+            jQuery.ajax({
+            url: url,
+            type: "POST",
+            data: {date:dob, country: selectedCountry},
+            showLoader: true,
+            cache: false,
+            success: function(response){
+                $('#city').empty();
+                $.each(response.cities, function (key, value) {
+                    $('#city').append($("<option></option>")
+                        .attr("value", key)
+                        .text(value));
+                });
+                console.log(response.output);
+                jQuery(".result").show();
+                jQuery(".result").text(response.output);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+        return false;
+        });
+    });
+});
+</script>
