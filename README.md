@@ -1,1 +1,1 @@
-# AjaxCrudExample
+# AjaxCrudExample Magento 2
