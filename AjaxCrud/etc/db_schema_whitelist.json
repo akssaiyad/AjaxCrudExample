@@ -1,0 +1,22 @@
+{
+    "aks_ajaxcrud": {
+        "column": {
+            "form_id": true,
+            "name": true,
+            "email": true,
+            "image": true,
+            "dob": true,
+            "age": true,
+            "country_id": true,
+            "region": true,
+            "occupation": true,
+            "store_id": true,
+            "status": true,
+            "created_at": true,
+            "updated_at": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

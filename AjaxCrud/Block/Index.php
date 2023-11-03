@@ -8,29 +8,32 @@ use \Magento\Framework\View\Element\Template\Context;
 class Index extends Template
 {
     protected $_date;
+    protected $directoryBlock;
 
     public function __construct(
         Context $context,      
         \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Directory\Block\Data $directoryBlock,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $date
     )
     {        
         $this->_date = $date;
+        $this->directoryBlock = $directoryBlock;
         parent::__construct($context);
     }
 
-    public function getBaseUrl()
+    public function getCountries()
     {
-        return $this->_storeManager->getStore()->getBaseUrl();
+        $country = $this->directoryBlock->getCountryHtmlSelect();
+        return $country;
     }
-
-    public function getDob()
+    public function getRegion()
     {
-        return $this->getDate();
+        $region = $this->directoryBlock->getRegionHtmlSelect();
+        return $region;
     }
-
-    public function getCurrentData()
+     public function getAction()
     {
-        return $this->_date->date()->format('Y-m-d H:i:s');
+        return $this->getUrl('ajaxcrud/result/result', ['_secure' => true]);
     }
 }

@@ -1,0 +1,131 @@
+<?php
+    $countryList=$block->getCountries();
+    $regionList=$block->getRegion();
+?>
+<div class="row clearfix">
+    <div class="col-md-12 column">
+        <form class="" action="<?php echo $block->getBaseUrl().'ajaxcrud/index/save'; ?>" id="aks-ajaxcrud-form" method="post" enctype='multipart/form-data'  data-mage-init='{"validation": {}}'>
+            <fieldset class="fieldset">
+                <legend class="legend"><span>Test Form For Crud Example Module <a href="<?php echo $block->getBaseUrl().'ajaxcrud/index/list'; ?>">(Visit List Page)</a></span></legend><br>
+                <div class="field note no-label">Write here anything you want.</div>
+                <div class="field name">
+                    <label class="label" for="name"><span><?php echo __('Name') ?></span></label>
+                    <div class="control">
+                        <input name="name" id="title" title="Name" value="" class="input-text" type="text" data-validate="{required:true}">
+                    </div>
+                </div>
+                <div class="field email">
+                    <label class="label" for="email"><span><?php echo __('Email') ?></span></label>
+                    <div class="control">
+                        <input name="email" id="email" title="Email" value="" class="input-text" type="email" data-validate="{required:true}">
+                    </div>
+                </div>
+                <div class="field image">
+                    <label class="label" for="image"><span><?php echo __('Image') ?></span></label>
+                    <div class="control">
+                        <input name="image" id="image" title="Image" value="" class="input-text" type="file">
+                    </div>
+                </div>
+                
+                <div class="field dob">
+                    <label class="label" for="dob"><span><?php echo __('DOB') ?></span></label>
+                    <div class="control">
+                        <input name="dob" id="dob" title="DOB" value="" class="input-text" type="date">
+                    </div>
+                </div>
+                <div class="field age" style="display:none">
+                    <div class="control">
+                        <input name="age" id="age" title="Age" value="" class="input-text" type="text">
+                    </div>
+                </div>
+                <div class="field result">
+                    <label class="label" for="result"><span><?php echo __('Result') ?></span></label>
+                    <div class="control">
+                        <div class="result" style="display:none"></div>
+                    </div>
+                </div>
+
+                <div class="field country required">
+                   <label class="label" for="country"><span><?php /* @escapeNotVerified */ echo __('Country') ?></span></label>
+                   <div class="control">
+                        <?php echo $countryList?>
+                   </div>
+               </div>
+ 
+                <div class="field region required">
+                    <label class="label" for="state"><span><?php /* @escapeNotVerified */ echo __('State') ?></span></label>
+                    <div class="control">
+                        <?php echo $regionList?>
+                    </div>
+                </div>
+
+                <div class="field states required" style="display:none">
+                    <label class="label" for="states"><span><?php /* @escapeNotVerified */ echo __('State') ?></span></label>
+                    <div class="control">
+                        <input name="state" id="states" title="<?php /* @escapeNotVerified */ echo __('State') ?>"  class="input-text" type="text" />
+                    </div>
+                </div>
+
+                <div class="field occupation">
+                    <label class="label" for="occupation"><span><?php echo __('Occupation') ?></span></label>
+                    <div class="control">
+                        <textarea name="occupation" id="occupation" title="Occupation" class="input-text" cols="5" rows="3" data-validate="{required:true}"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <button type="submit" title="Submit" class="action submit primary">
+                        <span>Submit</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+require(['jquery'],function(){
+    
+    jQuery(document).on('change','#country',function() {
+        var param = 'country='+jQuery('#country').val();
+        jQuery.ajax({
+            showLoader: true,
+            url: '<?php /* @escapeNotVerified */ echo $block->getAction(); ?>',
+            data: param,
+            type: "GET",
+            dataType: 'json'
+        }).done(function (data) {
+            jQuery('#result').empty();
+            if(data.value == '')
+            {
+                jQuery('.field.states.required').show();
+                jQuery('.field.region.required').hide();
+            }
+            else
+            {
+                jQuery('#state').append(data.value);
+                jQuery('.field.states.required').hide();
+                jQuery('.field.region.required').show();
+            }
+        });
+    });
+    jQuery(".result").hide();
+    jQuery(document).on('change','#dob',function() {
+        var dob = jQuery("input[name='dob']").val();
+        console.log(dob);
+        jQuery.ajax({
+            showLoader: true,
+            url: '<?php /* @escapeNotVerified */ echo $block->getAction(); ?>',
+            type: "GET",
+            data: {dob:dob},
+            cache: false,
+            success: function(data){
+                jQuery(".result").show();
+                jQuery('#age').val(data.age);
+                jQuery(".result").text(data.output);
+            }
+        });
+    });
+});
+</script>
