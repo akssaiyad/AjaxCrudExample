@@ -1,15 +1,10 @@
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column"
-xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.x
-
-sd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
         <title>Addition Using Ajax</title>
     </head> 
     <body>
         <referenceContainer name="content">
-            <block class="Aks\AjaxCrud\Block\Index" name="calculation_index" 
-
-template="Aks_AjaxCrud::calculation.phtml" />
+            <block class="Aks\AjaxCrud\Block\Index" name="ajaxform_index" template="Aks_AjaxCrud::ajaxform.phtml" />
         </referenceContainer>
     </body>
 </page>
